@@ -1,3 +1,8 @@
+"""
+upload.py
+upload data to InfluxDB
+"""
+
 from csv import DictReader
 import reactivex as rx
 from reactivex import operators as ops

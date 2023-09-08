@@ -1,3 +1,9 @@
+"""
+fetch.py
+fetch data from remote ftp server
+"""
+
+
 import os
 import time
 import logging
@@ -30,13 +36,12 @@ class FTPDownloader(FTP):
         logging.info(f"DIR DIFF: {','.join(diff)}")
         print(f"DIR DIFF: {','.join(diff)}")
         return diff
-    
 
     def download_one_day(self, some_day, local_root, remote_root):
-        
+
         remote_file_dir_path = self.remote_file_dir_generator(some_day,
                                                               remote_root=remote_root)
-        
+
         self.cwd(remote_file_dir_path)
         fnames = self.nlst()
         dbs_files = list(filter(lambda x: "DBS" in x, fnames))
@@ -57,7 +62,7 @@ class FTPDownloader(FTP):
                     f.write("\n")
                     f.writelines(temp_lines[2:])
             time.sleep(5)
-        
+
         ptp_files.sort(key=lambda x: x.split(".")[0][-6:])
         local_path = local_root + "PTP/" + some_day + ".csv"
         mode = "wb"
@@ -74,7 +79,6 @@ class FTPDownloader(FTP):
                     f.writelines(temp_lines[2:])
             time.sleep(5)
 
-
     def download_diff(self, diff, local_root, remote_root):
         dbs_local_paths = []
         ptp_local_paths = []
@@ -84,7 +88,7 @@ class FTPDownloader(FTP):
             if some_day == today:
                 continue
             remote_file_dir_path = self.remote_file_dir_generator(some_day,
-                                                                remote_root)
+                                                                  remote_root)
 
             self.cwd(remote_file_dir_path)
             fnames = self.nlst()

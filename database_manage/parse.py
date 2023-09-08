@@ -1,3 +1,8 @@
+"""
+parse.py
+parse data from csv files
+"""
+
 import re
 import numpy as np
 import pandas as pd
