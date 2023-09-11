@@ -43,7 +43,7 @@ class DBSFileParser:
         self.data_each_height = data_each_height
         self.time_interval = time_interval
 
-    def compute_interval_mean_data(self, u, beta):
+    def _compute_interval_mean_data(self, u, beta):
         U_extreme = np.max(u)
         beta_rad = np.deg2rad(beta)
         ux = u * np.cos(beta_rad)
@@ -67,7 +67,7 @@ class DBSFileParser:
 
         return [U_extreme, U_mean, beta_mean, Iu, Gu, Iv, Gv, extreme_level, mean_level]
 
-    def make_time_interval(self, date):
+    def _make_time_interval(self, date):
         interval = self.time_interval
         starts = pd.date_range(date, periods=24*3600 //
                                interval, freq=f"{interval}s")
@@ -78,7 +78,7 @@ class DBSFileParser:
     def extract_mean_data(self, today):
         mean_datas = {}
         heights = list(self.data_each_height.keys())
-        starts, ends = self.make_time_interval(date=today)
+        starts, ends = self._make_time_interval(date=today)
         for height in heights:
             mean_data = []
             val = self.data_each_height[height].copy()
@@ -93,8 +93,8 @@ class DBSFileParser:
                         start, end,
                         np.mean(np.abs(val_interval["ux"].values)),
                         np.mean(np.abs(val_interval["uy"].values)),
-                    ] + self.compute_interval_mean_data(val_interval["u"].values,
-                                                        val_interval["beta"].values))
+                    ] + self._compute_interval_mean_data(val_interval["u"].values,
+                                                         val_interval["beta"].values))
             mean_datas[height] = pd.DataFrame(mean_data,
                                               columns=["start_time", "end_time",
                                                        "ux_mean", "uy_mean",
@@ -134,7 +134,7 @@ class PTPFileParser:
         self.data_each_length = data_each_length
         self.time_interval = time_interval
 
-    def compute_interval_mean_data(self, u, beta, zwind):
+    def _compute_interval_mean_data(self, u, beta, zwind):
         U_extreme = np.max(u)
         beta_rad = np.deg2rad(beta)
         ux = u * np.cos(beta_rad)
@@ -161,7 +161,7 @@ class PTPFileParser:
 
         return [U_extreme, U_mean, beta_mean, alpha_mean, Iu, Gu, Iv, Gv, extreme_level, mean_level]
 
-    def make_time_interval(self, date):
+    def _make_time_interval(self, date):
         interval = self.time_interval
         starts = pd.date_range(date, periods=24*3600 //
                                interval, freq=f"{interval}s")
@@ -172,7 +172,7 @@ class PTPFileParser:
     def extract_mean_data(self, today):
         mean_datas = {}
         lengths = list(self.data_each_length.keys())
-        starts, ends = self.make_time_interval(date=today)
+        starts, ends = self._make_time_interval(date=today)
         for length in lengths:
             mean_data = []
             val = self.data_each_length[length].copy()
@@ -187,9 +187,9 @@ class PTPFileParser:
                         start, end,
                         np.mean(np.abs(val_interval["ux"].values)),
                         np.mean(np.abs(val_interval["uy"].values)),
-                    ] + self.compute_interval_mean_data(val_interval["u"].values,
-                                                        val_interval["beta"].values,
-                                                        val_interval["zwind"].values))
+                    ] + self._compute_interval_mean_data(val_interval["u"].values,
+                                                         val_interval["beta"].values,
+                                                         val_interval["zwind"].values))
             mean_datas[length] = pd.DataFrame(mean_data,
                                               columns=["start_time", "end_time",
                                                        "ux_mean", "uy_mean",

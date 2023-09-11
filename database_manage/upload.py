@@ -14,7 +14,7 @@ from influxdb_client.client.write.retry import WritesRetry
 from influxdb_client.client.write_api import SYNCHRONOUS
 
 
-def dataframe_to_generator(dataframe: pd.DataFrame, measurement, tag, height_or_length):
+def _dataframe_to_generator(dataframe: pd.DataFrame, measurement, tag, height_or_length):
     """
     Parse DataFrame into generator
     """
@@ -39,7 +39,7 @@ def write_file(url, token, org, bucket,
         write_api = client.write_api(write_options=SYNCHRONOUS)
 
         batches = (
-            rx.from_iterable(dataframe_to_generator(
+            rx.from_iterable(_dataframe_to_generator(
                 dataframe=dataframe,
                 measurement=measurement,
                 tag=tag,

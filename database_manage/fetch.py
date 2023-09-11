@@ -15,10 +15,10 @@ class FTPDownloader(FTP):
     def __init__(self, address):
         super().__init__(address)
 
-    def remote_file_dir_generator(self, some_day, remote_root):
+    def _remote_file_dir_generator(self, some_day, remote_root):
         return remote_root + some_day + "/" + "level1"
 
-    def download_single_file(self, remote_fname, local_path, mode='wb'):
+    def _download_single_file(self, remote_fname, local_path, mode='wb'):
         logging.info(f"Downloading {remote_fname} to {local_path}")
         print(f"Downloading {remote_fname} to {local_path}")
 
@@ -39,8 +39,8 @@ class FTPDownloader(FTP):
 
     def download_one_day(self, some_day, local_root, remote_root):
 
-        remote_file_dir_path = self.remote_file_dir_generator(some_day,
-                                                              remote_root=remote_root)
+        remote_file_dir_path = self._remote_file_dir_generator(some_day,
+                                                               remote_root=remote_root)
 
         self.cwd(remote_file_dir_path)
         fnames = self.nlst()
@@ -52,10 +52,10 @@ class FTPDownloader(FTP):
         mode = "wb"
         for idx, dbs_file in enumerate(dbs_files):
             if idx == 0:
-                self.download_single_file(dbs_file, local_path, mode=mode)
+                self._download_single_file(dbs_file, local_path, mode=mode)
             else:
                 temp_path = local_root + "DBS/" + "_temp.csv"
-                self.download_single_file(dbs_file, temp_path, mode=mode)
+                self._download_single_file(dbs_file, temp_path, mode=mode)
                 with open(temp_path, "r") as f:
                     temp_lines = f.readlines()
                 with open(local_path, "a") as f:
@@ -68,10 +68,10 @@ class FTPDownloader(FTP):
         mode = "wb"
         for idx, ptp_file in enumerate(ptp_files):
             if idx == 0:
-                self.download_single_file(ptp_file, local_path, mode=mode)
+                self._download_single_file(ptp_file, local_path, mode=mode)
             else:
                 temp_path = local_root + "PTP/" + "_temp.csv"
-                self.download_single_file(ptp_file, temp_path, mode=mode)
+                self._download_single_file(ptp_file, temp_path, mode=mode)
                 with open(temp_path, "r") as f:
                     temp_lines = f.readlines()
                 with open(local_path, "a") as f:
@@ -87,8 +87,8 @@ class FTPDownloader(FTP):
             # skip today, because the recorded data is not complete
             if some_day == today:
                 continue
-            remote_file_dir_path = self.remote_file_dir_generator(some_day,
-                                                                  remote_root)
+            remote_file_dir_path = self._remote_file_dir_generator(some_day,
+                                                                   remote_root)
 
             self.cwd(remote_file_dir_path)
             fnames = self.nlst()
@@ -101,10 +101,10 @@ class FTPDownloader(FTP):
             # maybe more than one file for just one day
             for idx, dbs_file in enumerate(dbs_files):
                 if idx == 0:
-                    self.download_single_file(dbs_file, local_path, mode=mode)
+                    self._download_single_file(dbs_file, local_path, mode=mode)
                 else:
                     temp_path = local_root + "DBS/" + "_temp.csv"
-                    self.download_single_file(dbs_file, temp_path, mode=mode)
+                    self._download_single_file(dbs_file, temp_path, mode=mode)
                     with open(temp_path, "r") as f:
                         temp_lines = f.readlines()
                     with open(local_path, "a") as f:
@@ -118,10 +118,10 @@ class FTPDownloader(FTP):
             mode = "wb"
             for idx, ptp_file in enumerate(ptp_files):
                 if idx == 0:
-                    self.download_single_file(ptp_file, local_path, mode=mode)
+                    self._download_single_file(ptp_file, local_path, mode=mode)
                 else:
                     temp_path = local_root + "PTP/" + "_temp.csv"
-                    self.download_single_file(ptp_file, temp_path, mode=mode)
+                    self._download_single_file(ptp_file, temp_path, mode=mode)
                     with open(temp_path, "r") as f:
                         temp_lines = f.readlines()
                     with open(local_path, "a") as f:
