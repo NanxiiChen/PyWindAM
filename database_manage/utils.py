@@ -1,4 +1,6 @@
 import numpy as np
+import pandas as pd
+
 
 def wind_level(speed):
     speed = round(speed, 1)
@@ -22,5 +24,10 @@ def wind_level(speed):
         [51.0, 56.0],
         [56.1, 1e10],
     ])
-    tag = np.where((speed >= wind_level_map[:, 0]) & (speed <= wind_level_map[:, 1]))[0]
+    tag = np.where((speed >= wind_level_map[:, 0]) & (
+        speed <= wind_level_map[:, 1]))[0]
     return float(tag[0])
+
+
+def local2utc(time_col):
+    return pd.to_datetime(time_col) - pd.Timedelta(hours=8)

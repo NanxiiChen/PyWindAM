@@ -13,11 +13,15 @@ from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write.retry import WritesRetry
 from influxdb_client.client.write_api import SYNCHRONOUS
 
+from database_manage.utils import local2utc
+
 
 def _dataframe_to_generator(dataframe: pd.DataFrame, measurement, tag, height_or_length):
     """
     Parse DataFrame into generator
     """
+    dataframe["start_time"] = local2utc(dataframe["start_time"])
+    dataframe["end_time"] = local2utc(dataframe["end_time"])
     for idx, row in dataframe.iterrows():
         dict_structure = {
             "measurement": measurement,
