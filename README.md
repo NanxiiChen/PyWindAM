@@ -8,7 +8,7 @@ A Python software for wind field analysis and cloud-based data management.
 
 ## Software Usage
 
-### InfluxDB
+### InfluxDB Service
 
 First you need to install the `influxdb` service, here it is recommended to run it in `docker`:
 ```bash
@@ -26,7 +26,7 @@ docker run -d -p 8086:8086 \
 ```
 Note the replacement of `<VARNAME>` with a user-defined name.
 
-### Python package
+### Python Package
 
 Install the package dependencies:
 ```bash
@@ -59,6 +59,11 @@ ORG = ""
 BUCKET = ""
 BATCH_SIZE = 500
 ```
+Note for local usage, the `FTP_ADDRESS`, `FTP_USERNAME`, `FTP_PASSWORD`, `REMOTE_ROO` and `LOCAL_ROOT` can be left blank.
+
+### Run the software
+
+For complete usage, an `FTP` service on the measurement equipment is required. Field measurements will be automatically downloaded from the `FTP` service, then the wind field parameters will be calculated and stored in the `influxdb` service.
 
 Run the `main.py` file to start the software service
 ```bash
@@ -68,6 +73,12 @@ Or you can run the service using the no-hangup command
 ```bash
 nohup python main.py &
 ```
-Then accessing port 8086 under the server address through your browser will show you the constantly updated wind parameters.
+
+If the `FTP` service is not available, we provide a demo data set in the `data_download_from_ftp` folder. You can run the `local_mode.py` file to start the software service.
+```bash
+python local_mode.py --end_day 20230404
+```
+
+Then accessing port 8086 under the server or the local address through your browser will show you the constantly updated wind parameters.
 
 <img src="./figures/DBS-eg.png">

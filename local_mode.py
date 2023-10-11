@@ -3,8 +3,19 @@ import time
 import logging
 import datetime
 
+import argparse
+
 from configs import *
 import database_manage as dm
+
+arg_parser = argparse.ArgumentParser()
+arg_parser.add_argument("--end_day", type=str,
+                        default=time.strftime("%Y%m%d", time.localtime()))
+args = arg_parser.parse_args()
+end_day = args.end_day
+
+print(f"Start uploading data from {DATE_START} to {end_day}.")
+
 
 logging.basicConfig(filename='logs.log',
                     level=logging.INFO,
@@ -54,7 +65,7 @@ def upload_files(some_day):
 
 
 this_day = DATE_START
-end_day = time.strftime("%Y%m%d", time.localtime())
+
 
 while this_day <= end_day:
     upload_files(this_day)
