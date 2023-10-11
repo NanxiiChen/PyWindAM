@@ -1,1 +1,1 @@
-# PyWindExplorer
+# PyWindAM
