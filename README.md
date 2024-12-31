@@ -82,3 +82,18 @@ python local_mode.py --end_day 20230404
 Then accessing port 8086 under the server or the local address through your browser will show you the constantly updated wind parameters.
 
 <img src="./figures/DBS-eg.png">
+
+
+## Citation
+
+```bibtex
+@article{chen2024pywindam,
+  title={PyWindAM: A Python software for wind field analysis and cloud-based data management},
+  author={Chen, Nanxi and Ma, Rujin and Ge, Baixue and Chang, Haocheng},
+  journal={SoftwareX},
+  volume={28},
+  pages={101914},
+  year={2024},
+  publisher={Elsevier}
+}
+```
